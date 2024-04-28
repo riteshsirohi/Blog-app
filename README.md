@@ -1,1 +1,0 @@
-run serve -s build
