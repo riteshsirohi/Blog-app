@@ -73,30 +73,33 @@ exports.registerController = async (req, res) => {
       }
       const user = await userModel.findOne({ email });
       if (!user) {
+        console.log("User not found with email:", email); // Add this log
         return res.status(200).send({
           success: false,
-          message: "email is not registerd",
+          message: "Email is not registered",
         });
       }
       //password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
+        console.log("Password mismatch for user:", email); // Add this log
         return res.status(401).send({
           success: false,
-          message: "Invlid username or password",
+          message: "Invalid username or password",
         });
       }
+      console.log("User logged in successfully:", user._id); // Add this log
       return res.status(200).send({
         success: true,
-        messgae: "login successfully",
+        message: "Login successfully",
         user,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error in login callback:", error); // Add this log
       return res.status(500).send({
         success: false,
-        message: "Error In Login Callcback",
+        message: "Error In Login Callback",
         error,
       });
     }
-  };
+  }
